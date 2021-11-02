@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserCampaign extends Model
+class Campaign extends Model
 {
     use HasFactory;
-    protected $table = 'user_campaigns';
+    protected $table = 'campaigns';
     protected $fillable = ['title'];
 }

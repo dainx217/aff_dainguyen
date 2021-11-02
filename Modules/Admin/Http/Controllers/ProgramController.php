@@ -2,13 +2,13 @@
 
 namespace Modules\Admin\Http\Controllers;
 
-use App\Models\Campaign;
+use App\Models\UserCampaign;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class CampaignController extends AdminController
+class ProgramController extends AdminController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class CampaignController extends AdminController
      */
     public function index()
     {
-        $campaign = Campaign::orderByDesc('id')
+        $campaign = UserCampaign::orderByDesc('id')
             ->paginate(20);
         $viewData = [
             'campaign' => $campaign
@@ -34,7 +34,7 @@ class CampaignController extends AdminController
         $data['created_at'] = Carbon::now();
         $data['created_by'] = get_data_user('admins');
         $data['user_id'] = get_data_user('admins');
-        $campaignID = Campaign::insertGetId($data);
+        $campaignID = UserCampaign::insertGetId($data);
 
         if ($campaignID) {
             $this->showMessagesSuccess();
@@ -45,13 +45,13 @@ class CampaignController extends AdminController
     }
     public function edit($id)
     {
-        $campaign = Campaign::findOrFail($id);
+        $campaign = UserCampaign::findOrFail($id);
         return view('admin::pages.campaign.update', compact('campaign'));
     }
 
     public function update(Request $request, $id)
     {
-        $campaign = Campaign::findOrFail($id);
+        $campaign = UserCampaign::findOrFail($id);
         $data = $request->except(['save', '_token']);
         $data['updated_at'] = Carbon::now();
         $data['updated_by'] = get_data_user('admins');
@@ -63,7 +63,7 @@ class CampaignController extends AdminController
     public function delete(Request $request, $id)
     {
         if ($request->ajax()) {
-            $campaign = Campaign::findOrFail($id);
+            $campaign = UserCampaign::findOrFail($id);
             $campaign->delete();
             return response()->json([
                 'status' => 200,

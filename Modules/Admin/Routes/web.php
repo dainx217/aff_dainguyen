@@ -39,6 +39,18 @@ Route::prefix('admin')->middleware('checkLoginAdmin')->group(function () {
         Route::get('movetrash/{id}', 'AdminUserController@movetrash')->name('get_admin.user.movetrash');
         Route::get('delete/{id}', 'AdminUserController@delete')->name('get_admin.user.delete')->middleware('permission:user_delete|full');
     });
+    Route::prefix('program')->group(function () {
+        Route::get('/', 'ProgramController@index')->name('get_admin.program.index')->middleware('permission:program_index|full');
+        Route::get('/create', 'ProgramController@create')->name('get_admin.program.create')->middleware('permission:program_create|full');
+        Route::post('/create', 'ProgramController@store');
+        Route::post('edit/{id}', 'ProgramController@edit_flash')->name('get_admin.program.edit');
+        Route::get('update/{id}', 'ProgramController@edit')->name('get_admin.program.edit')->middleware('permission:program_edit|full');
+        Route::post('update/{id}', 'ProgramController@update');
+        Route::get('delete/{id}', 'ProgramController@delete')->name('get_admin.program.delete')->middleware('permission:program_delete|full');
+    });
+
+
+
     Route::prefix('shortlink')->group(function () {
         Route::get('/', 'ShortLinkController@index')->name('get_admin.shortlink.index')->middleware('permission:shortlink_index|full');
         Route::get('/create', 'ShortLinkController@create')->name('get_admin.shortlink.create')->middleware('permission:shortlink_create|full');
